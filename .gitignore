@@ -1,0 +1,6 @@
+/models/
+*.GofUu
+*.SymUu
+/trittrain
+/tritinfer
+*.log
