@@ -611,9 +611,11 @@ BEGIN
 	b[j] := 0X
 END SplitPair;
 
-(* SplitIntoChars counts with the same walk it splits by. UTF8Strings.Length steps
-   through a lead-byte table while DecodeChar validates as it goes, so on a sequence
-   that is not well-formed the two disagree -- and the array would come out short. *)
+(* SplitIntoChars counts with the same walk it splits by, rather than sizing the
+   array from UTF8Strings.Length. The two answer different questions on malformed
+   input -- Length counts sequences by the lead-byte table, this loop counts the
+   characters that actually decode -- and only one of those is the number of parts
+   this returns. *)
 PROCEDURE SplitIntoChars (CONST s: ARRAY OF CHAR): Parts;
 VAR p: Parts; i, j, n: SIZE; cp: UTF8Strings.Char32; one: ARRAY 8 OF CHAR;
 BEGIN

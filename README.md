@@ -88,13 +88,21 @@ What actually cost something:
   trit-against-trit dot product uses it and inference does not, so it does not
   matter; marked `ponytail:` in the source.
 
-## Two traps worth knowing
+## Three things worth knowing
 
-- `UTF8Strings.DecodeChar` reports success on the terminating `0X` as well, so
-  every walk over a string here stops on `cp = 0` rather than on the call
-  returning `FALSE`.
-- `ob build` can link an object compiled before your last edit. `ob compile` the
-  changed module first, or delete `*.GofUu`.
+- `UTF8Strings.DecodeChar` reports success on the terminating `0X` as well — NUL
+  is a code point like any other — so every walk over a string here stops on
+  `cp = 0` rather than on the call returning `FALSE`. The doc comment does not say
+  so; `UTF8Strings.Valid` is the one place that shows the idiom.
+- `UTF8Strings.Length` counts sequences by the lead-byte table while a decode loop
+  counts characters that actually decode, so the two disagree on malformed input.
+  `SplitIntoChars` sizes its array with the same walk it fills it by.
+- Writing this port turned up one real defect and one stale install, both since
+  settled: `UTF8Strings` walked off the end of an exactly-sized array on malformed
+  input (minia2 `94cb33a`), and `ob build` linked an object compiled before the
+  last edit (`c40708d`, `f089a5a`) on an SDK two weeks behind the checkout. If a
+  trap reproduces against a source you have already fixed, check `ob version`
+  against the tree first.
 
 ## Differences from the C# original
 
