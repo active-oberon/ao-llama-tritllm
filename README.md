@@ -120,4 +120,6 @@ Same list as the Go port, plus one:
 
 ## License
 
-MIT, as the original. Copyright (c) 2026 virex-84 for the original work.
+MIT, as the original. Copyright (c) 2026 virex-84 for the C# implementation,
+its file formats and the corpus; copyright (c) 2026 Andrii Puhachenko for the
+Active Oberon port.
